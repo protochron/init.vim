@@ -6,6 +6,7 @@ Plug 'calendar.vim--Matsumoto'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dbmrq/vim-ditto'
 Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'elixir-lang/vim-elixir'
 Plug 'elzr/vim-json', {'for' : 'json'}
@@ -22,14 +23,16 @@ Plug 'mtth/scratch.vim'
 Plug 'mxw/vim-jsx'
 Plug 'neomake/neomake'
 Plug 'pangloss/vim-javascript'
+Plug 'reedes/vim-wordy'
 Plug 'rodjek/vim-puppet'
 Plug 'romainl/flattened'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 Plug 'Shougo/deoplete.nvim'
+Plug 'slashmili/alchemist.vim'
 Plug 'solarnz/thrift.vim'
-"Plug 'suan/vim-instant-markdown'
+Plug 'suan/vim-instant-markdown'
 Plug 'ternjs/tern_for_vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-abolish'
@@ -151,3 +154,29 @@ let g:deoplete#enable_at_startup = 1
 
 " Neomake
 autocmd! BufWritePost * Neomake
+
+" Elixir
+" https://github.com/neomake/neomake/pull/300
+let g:neomake_elixir_enabled_makers = ['mix', 'mycredo']
+function NeomakeCredoErrorType(entry)
+    if a:entry.type ==# 'F'      " Refactoring opportunities
+        let type = 'W'
+    elseif a:entry.type ==# 'D'  " Software design suggestions
+        let type = 'I'
+    elseif a:entry.type ==# 'W'  " Warnings
+        let type = 'W'
+    elseif a:entry.type ==# 'R'  " Readability suggestions
+        let type = 'I'
+    elseif a:entry.type ==# 'C'  " Convention violation
+        let type = 'W'
+    else
+        let type = 'M'           " Everything else is a message
+    endif
+    let a:entry.type = type
+endfunction
+let g:neomake_elixir_mycredo_maker = {
+      \ 'exe': 'mix',
+      \ 'args': ['credo', 'list', '%:p', '--format=oneline'],
+      \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
+      \ 'postprocess': function('NeomakeCredoErrorType')
+      \ }
