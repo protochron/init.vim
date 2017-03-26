@@ -1,5 +1,6 @@
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'Shougo/deoplete.nvim'
 Plug 'SirVer/ultisnips'
 Plug 'b4b4r07/vim-hcl'
 Plug 'calendar.vim--Matsumoto'
@@ -7,31 +8,21 @@ Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dbmrq/vim-ditto'
-Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
-Plug 'elixir-lang/vim-elixir'
-Plug 'elzr/vim-json', {'for' : 'json'}
-Plug 'fatih/vim-go'
 Plug 'fatih/vim-hclfmt'
 Plug 'godlygeek/tabular'
 Plug 'jceb/vim-orgmode'
-Plug 'jcf/vim-latex'
 Plug 'junegunn/goyo.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
 Plug 'msanders/snipmate.vim'
 Plug 'mtth/scratch.vim'
-Plug 'mxw/vim-jsx'
 Plug 'neomake/neomake'
-Plug 'pangloss/vim-javascript'
 Plug 'reedes/vim-wordy'
-Plug 'rodjek/vim-puppet'
 Plug 'romainl/flattened'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-"Plug 'scrooloose/syntastic'
-Plug 'Shougo/deoplete.nvim'
+Plug 'sheerun/vim-polyglot'
 Plug 'slashmili/alchemist.vim'
-Plug 'solarnz/thrift.vim'
 Plug 'suan/vim-instant-markdown'
 Plug 'ternjs/tern_for_vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -42,9 +33,6 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-speeddating'
 Plug 'utl.vim'
-Plug 'vim-ruby/vim-ruby'
-Plug 'wlangstroth/vim-haskell'
-Plug 'wting/rust.vim'
 Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
 
 call plug#end()
@@ -155,28 +143,4 @@ let g:deoplete#enable_at_startup = 1
 " Neomake
 autocmd! BufWritePost * Neomake
 
-" Elixir
-" https://github.com/neomake/neomake/pull/300
-let g:neomake_elixir_enabled_makers = ['mix', 'mycredo']
-function NeomakeCredoErrorType(entry)
-    if a:entry.type ==# 'F'      " Refactoring opportunities
-        let type = 'W'
-    elseif a:entry.type ==# 'D'  " Software design suggestions
-        let type = 'I'
-    elseif a:entry.type ==# 'W'  " Warnings
-        let type = 'W'
-    elseif a:entry.type ==# 'R'  " Readability suggestions
-        let type = 'I'
-    elseif a:entry.type ==# 'C'  " Convention violation
-        let type = 'W'
-    else
-        let type = 'M'           " Everything else is a message
-    endif
-    let a:entry.type = type
-endfunction
-let g:neomake_elixir_mycredo_maker = {
-      \ 'exe': 'mix',
-      \ 'args': ['credo', 'list', '%:p', '--format=oneline'],
-      \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
-      \ 'postprocess': function('NeomakeCredoErrorType')
-      \ }
+let g:vim_json_syntax_conceal = 1
