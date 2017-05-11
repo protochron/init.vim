@@ -8,6 +8,7 @@ Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dbmrq/vim-ditto'
+Plug 'fatih/vim-go'
 Plug 'fatih/vim-hclfmt'
 Plug 'godlygeek/tabular'
 Plug 'jceb/vim-orgmode'
@@ -24,6 +25,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'sheerun/vim-polyglot'
 Plug 'slashmili/alchemist.vim'
 Plug 'suan/vim-instant-markdown'
+Plug 't9md/vim-choosewin'
 Plug 'ternjs/tern_for_vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-abolish'
@@ -32,6 +34,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-speeddating'
+Plug 'unblevable/quick-scope'
 Plug 'utl.vim'
 Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
 
@@ -101,13 +104,26 @@ let g:tagbar_type_markdown = {
 	\ ]
 \ }
 
+let g:tagbar_type_elixir = {
+  \ 'ctagstype' : 'elixir',
+  \ 'kinds' : [
+      \ 'f:functions',
+      \ 'functions:functions',
+      \ 'c:callbacks',
+      \ 'd:delegates',
+      \ 'e:exceptions',
+      \ 'i:implementations',
+      \ 'a:macros',
+      \ 'o:operators',
+      \ 'm:modules',
+      \ 'p:protocols',
+      \ 'r:records',
+      \ 't:tests'
+  \ ]
+\ }
+
 " Puppet
 autocmd BufRead,BufNew *.eyaml set filetype=yaml
-
-" Javascript
-let g:syntastic_javascript_checkers = ['jsxhint']
-let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
-autocmd FileType javascript setlocal omnifunc=tern#Complete
 
 " LaTeX
 let g:Tex_CompileRule_pdf='pdflatex --shell-escape -synctex=1 --interaction=nonstopmode $*'
@@ -143,4 +159,9 @@ let g:deoplete#enable_at_startup = 1
 " Neomake
 autocmd! BufWritePost * Neomake
 
+" vim-json
 let g:vim_json_syntax_conceal = 1
+
+" vim-org
+let g:org_export_emacs = "/usr/local/bin/emacs"
+let g:org_export_init_script = "~/.emacs"
