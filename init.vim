@@ -3,7 +3,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'Shougo/deoplete.nvim'
 Plug 'SirVer/ultisnips'
 Plug 'b4b4r07/vim-hcl'
-Plug 'calendar.vim--Matsumoto'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -35,7 +34,8 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-speeddating'
 Plug 'unblevable/quick-scope'
-Plug 'utl.vim'
+Plug 'vim-scripts/calendar.vim--Matsumoto'
+Plug 'vim-scripts/utl.vim'
 Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
 
 call plug#end()
@@ -76,7 +76,7 @@ set termguicolors
 nnoremap <leader><space> :nohlsearch<CR>
 
 " Remap terminal exit command to <Leader> q
-tnoremap <Leader>q <C-\><C-n>gg<cr>
+tnoremap <Leader>q <C-\><C-n>
 
 " always start terminal in insert mode
 autocmd BufWinEnter,WinEnter term://* startinsert
@@ -148,6 +148,9 @@ au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>s  <Plug>(go-test)
 au FileType go nmap <Leader>d <Plug>(go-doc)
 au FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+
+" Add in golint
+let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
 
 " NERDTree
 noremap <Leader>n :NERDTreeToggle<cr>
