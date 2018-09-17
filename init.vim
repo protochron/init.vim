@@ -1,16 +1,19 @@
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'b4b4r07/vim-hcl'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dbmrq/vim-ditto'
-Plug 'fatih/vim-go'
-Plug 'fatih/vim-hclfmt'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"Plug 'fatih/vim-hclfmt'
 Plug 'godlygeek/tabular'
+Plug 'google/vim-jsonnet'
+Plug 'hashivim/vim-terraform'
 Plug 'jceb/vim-orgmode'
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'majutsushi/tagbar'
 Plug 'mileszs/ack.vim'
@@ -36,7 +39,8 @@ Plug 'tpope/vim-speeddating'
 Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/calendar.vim--Matsumoto'
 Plug 'vim-scripts/utl.vim'
-Plug 'zchee/deoplete-go', {'build': {'unix': 'make'}}
+Plug 'zchee/deoplete-go', { 'do': 'make' }
+Plug '/usr/local/opt/fzf'
 
 call plug#end()
 
@@ -133,13 +137,6 @@ let g:Tex_DefaultTargetFormat='pdf'
 " Fugitive
 command GSquashLast2 Git rebase -i HEAD~2
 
-" ctrl-p
-let g:ctrlp_map = '<Leader>t'
-"let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_switch_buffer = 'et'
-let g:ctrlp_prompt_mappings = { 'ToggleMRURelative()': ['<F2>'] }
-
 " vim-go
 let g:go_fmt_command = "goimports"
 let g:go_autodetect_path = 1
@@ -148,6 +145,7 @@ au FileType go nmap <leader>b  <Plug>(go-build)
 au FileType go nmap <leader>s  <Plug>(go-test)
 au FileType go nmap <Leader>d <Plug>(go-doc)
 au FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+"let g:go_gocode_propose_source=1
 
 " Add in golint
 let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
@@ -168,3 +166,9 @@ let g:vim_json_syntax_conceal = 1
 " vim-org
 let g:org_export_emacs = "/usr/local/bin/emacs"
 let g:org_export_init_script = "~/.emacs"
+
+" vim-terraform (pulled in by vim-polyglot)
+let g:terraform_align=1
+
+" fzf.vim
+nnoremap <leader>t :Files<CR>
