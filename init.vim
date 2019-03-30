@@ -2,13 +2,10 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
-Plug 'b4b4r07/vim-hcl'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
-"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dbmrq/vim-ditto'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-"Plug 'fatih/vim-hclfmt'
 Plug 'godlygeek/tabular'
 Plug 'google/vim-jsonnet'
 Plug 'hashivim/vim-terraform'
@@ -87,6 +84,8 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 
 " open help vertically
 command! -nargs=* -complete=help Help vertical belowright help <args>
+
+tnoremap <Esc> <C-\><C-n>
 
 " Tagbar
 nmap <leader>tg :TagbarToggle<CR>
@@ -169,6 +168,7 @@ let g:org_export_init_script = "~/.emacs"
 
 " vim-terraform (pulled in by vim-polyglot)
 let g:terraform_align=1
+let g:terraform_fmt_on_save=1
 
 " fzf.vim
 nnoremap <leader>t :Files<CR>
