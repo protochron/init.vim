@@ -196,6 +196,7 @@ au FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
 let g:go_gopls_use_placeholders=1
 let g:go_metalinter_command='gopls'
 let g:go_gopls_use_staticcheck=1
+let g:go_rename_command='gopls'
 
 " Add in golint
 let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
