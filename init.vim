@@ -8,6 +8,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'dbmrq/vim-ditto'
 Plug 'dyng/ctrlsf.vim'
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-hclfmt'
 Plug 'godlygeek/tabular'
 Plug 'google/vim-jsonnet'
 Plug 'hashivim/vim-terraform'
@@ -253,3 +254,6 @@ au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 " rust.vim
 let g:rustfmt_autosave = 1
+
+" vimhcl
+let g:tf_fmt_autosave = 0
