@@ -4,7 +4,9 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
+Plug 'davidhalter/jedi-vim'
 Plug 'dbmrq/vim-ditto'
+Plug 'dyng/ctrlsf.vim'
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 Plug 'godlygeek/tabular'
 Plug 'google/vim-jsonnet'
@@ -14,7 +16,7 @@ Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'majutsushi/tagbar'
-Plug 'mileszs/ack.vim'
+Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'msanders/snipmate.vim'
 Plug 'mtth/scratch.vim'
 Plug 'neomake/neomake'
@@ -39,8 +41,9 @@ Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-speeddating'
 Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/calendar.vim--Matsumoto'
+Plug 'vim-scripts/groovyindent-unix'
 Plug 'vim-scripts/utl.vim'
-Plug 'zchee/deoplete-go', { 'do': 'make' }
+"Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug '/usr/local/opt/fzf'
 
 call plug#end()
@@ -207,6 +210,9 @@ let NERDTreeShowHidden=1
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('omni_patterns', {
+\ 'go': '[^. *\t]\.\w*',
+\})
 
 " Neomake
 autocmd! BufWritePost * Neomake
