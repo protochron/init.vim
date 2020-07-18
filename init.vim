@@ -1,3 +1,7 @@
+if has('macunix')
+  let g:python3_host_prog = '/usr/local/opt/python@3/libexec/bin/python'
+end
+
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
