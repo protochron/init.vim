@@ -4,51 +4,56 @@ end
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
-Plug 'davidhalter/jedi-vim'
+"Plug 'davidhalter/jedi-vim'
 Plug 'dbmrq/vim-ditto'
 Plug 'dyng/ctrlsf.vim'
+Plug 'elixir-editors/vim-elixir'
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 Plug 'fatih/vim-hclfmt'
 Plug 'godlygeek/tabular'
 Plug 'google/vim-jsonnet'
 Plug 'hashivim/vim-terraform'
+Plug 'jasdel/vim-smithy'
 Plug 'jceb/vim-orgmode'
 Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'majutsushi/tagbar'
-Plug 'martinda/Jenkinsfile-vim-syntax'
+"Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'msanders/snipmate.vim'
 Plug 'mtth/scratch.vim'
 Plug 'neomake/neomake'
-Plug 'racer-rust/vim-racer'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'overcache/NeoSolarized'
+"Plug 'racer-rust/vim-racer'
 Plug 'reedes/vim-litecorrect'
 Plug 'reedes/vim-wordy'
-Plug 'romainl/flattened'
+"Plug 'romainl/flattened'
+Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'sheerun/vim-polyglot'
-Plug 'slashmili/alchemist.vim'
-"Plug 'suan/vim-instant-markdown'
+"Plug 'sheerun/vim-polyglot'
+"Plug 'slashmili/alchemist.vim'
 Plug 't9md/vim-choosewin'
 Plug 'tsandall/vim-rego'
 "Plug 'ternjs/tern_for_vim'
-Plug 'terryma/vim-multiple-cursors'
+"Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-markdown'
+"Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-speeddating'
 Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/calendar.vim--Matsumoto'
-Plug 'vim-scripts/groovyindent-unix'
+"Plug 'vim-scripts/groovyindent-unix'
 Plug 'vim-scripts/utl.vim'
-"Plug 'zchee/deoplete-go', { 'do': 'make' }
 Plug '/usr/local/opt/fzf'
 
 call plug#end()
@@ -72,18 +77,26 @@ filetype indent on
 filetype plugin on
 set shiftwidth=2
 set tabstop=2		" Number of spaces to autoindent
-set expandtab		" Converts tab to spaces
+"set expandtab		" Converts tab to spaces
 set softtabstop=2
 set autoindent
 set backspace=indent,eol,start " Smart backspacing
 set noerrorbells
 autocmd BufWritePre * :%s/\s\+$//e
+set background=dark
+
+set updatetime=300
+set signcolumn=number
+set shortmess+=c
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mouse highlight quick copy
 vmap <C-C> "+y
 
-colorscheme  flattened_dark
 set termguicolors
+colorscheme  NeoSolarized
+
+"colorscheme  flattened_dark
 
 " Remove search highlight
 nnoremap <leader><space> :nohlsearch<CR>
@@ -214,10 +227,10 @@ noremap <Leader>n :NERDTreeToggle<cr>
 let NERDTreeShowHidden=1
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('omni_patterns', {
-\ 'go': '[^. *\t]\.\w*',
-\})
+"let g:deoplete#enable_at_startup = 1
+"call deoplete#custom#option('omni_patterns', {
+"\ 'go': '[^. *\t]\.\w*',
+"\})
 
 " Neomake
 autocmd! BufWritePost * Neomake
@@ -250,14 +263,57 @@ if !&wildcharm | set wildcharm=<C-z> | endif
 execute 'nnoremap <leader>w :Wordy<space>'.nr2char(&wildcharm)
 
 " vim-racer
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-"au FileType rust nmap gt <Plug>(rust-def-tab)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
+"au FileType rust nmap gd <Plug>(rust-def)
+"au FileType rust nmap gs <Plug>(rust-def-split)
+"au FileType rust nmap gx <Plug>(rust-def-vertical)
+""au FileType rust nmap gt <Plug>(rust-def-tab)
+"au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 " rust.vim
 let g:rustfmt_autosave = 1
 
 " vimhcl
 let g:tf_fmt_autosave = 0
+
+let g:neosolarized_termBoldAsBright = 0
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" coc config
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
