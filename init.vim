@@ -4,16 +4,15 @@ end
 
 call plug#begin('~/.config/nvim/plugged')
 
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
-"Plug 'davidhalter/jedi-vim'
 Plug 'dbmrq/vim-ditto'
 Plug 'dyng/ctrlsf.vim'
 Plug 'elixir-editors/vim-elixir'
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 Plug 'fatih/vim-hclfmt'
+Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular'
 Plug 'google/vim-jsonnet'
 Plug 'hashivim/vim-terraform'
@@ -23,7 +22,6 @@ Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'majutsushi/tagbar'
-"Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'msanders/snipmate.vim'
 Plug 'mtth/scratch.vim'
 Plug 'neomake/neomake'
@@ -31,28 +29,20 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'overcache/NeoSolarized'
-"Plug 'racer-rust/vim-racer'
 Plug 'reedes/vim-litecorrect'
 Plug 'reedes/vim-wordy'
-"Plug 'romainl/flattened'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-"Plug 'sheerun/vim-polyglot'
-"Plug 'slashmili/alchemist.vim'
 Plug 't9md/vim-choosewin'
 Plug 'tsandall/vim-rego'
-"Plug 'ternjs/tern_for_vim'
-"Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
-"Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-speeddating'
 Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/calendar.vim--Matsumoto'
-"Plug 'vim-scripts/groovyindent-unix'
 Plug 'vim-scripts/utl.vim'
 Plug '/usr/local/opt/fzf'
 
@@ -88,7 +78,6 @@ set background=dark
 set updatetime=300
 set signcolumn=number
 set shortmess+=c
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mouse highlight quick copy
 vmap <C-C> "+y
@@ -218,6 +207,7 @@ let g:go_gopls_use_placeholders=1
 let g:go_metalinter_command='gopls'
 let g:go_gopls_use_staticcheck=1
 let g:go_rename_command='gopls'
+let g:go_code_completion_enabled=0
 
 " Add in golint
 let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
@@ -225,12 +215,6 @@ let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--ena
 " NERDTree
 noremap <Leader>n :NERDTreeToggle<cr>
 let NERDTreeShowHidden=1
-
-" Deoplete
-"let g:deoplete#enable_at_startup = 1
-"call deoplete#custom#option('omni_patterns', {
-"\ 'go': '[^. *\t]\.\w*',
-"\})
 
 " Neomake
 autocmd! BufWritePost * Neomake
@@ -245,6 +229,7 @@ let g:org_export_init_script = "~/.emacs"
 " vim-terraform (pulled in by vim-polyglot)
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
+let g:hcl_align=1
 
 " fzf.vim
 nnoremap <leader>t :Files<CR>
@@ -262,18 +247,8 @@ augroup END
 if !&wildcharm | set wildcharm=<C-z> | endif
 execute 'nnoremap <leader>w :Wordy<space>'.nr2char(&wildcharm)
 
-" vim-racer
-"au FileType rust nmap gd <Plug>(rust-def)
-"au FileType rust nmap gs <Plug>(rust-def-split)
-"au FileType rust nmap gx <Plug>(rust-def-vertical)
-""au FileType rust nmap gt <Plug>(rust-def-tab)
-"au FileType rust nmap <leader>gd <Plug>(rust-doc)
-
 " rust.vim
 let g:rustfmt_autosave = 1
-
-" vimhcl
-let g:tf_fmt_autosave = 0
 
 let g:neosolarized_termBoldAsBright = 0
 
@@ -306,6 +281,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>cl <Plug>(coc-codelens-action)
 
 augroup mygroup
   autocmd!
@@ -317,3 +294,4 @@ augroup end
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
