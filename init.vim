@@ -21,13 +21,15 @@ Plug 'jceb/vim-orgmode'
 Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'leoluz/nvim-dap-go'
 Plug 'majutsushi/tagbar'
+Plug 'mfussenegger/nvim-dap'
 Plug 'msanders/snipmate.vim'
 Plug 'mtth/scratch.vim'
 Plug 'neomake/neomake'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+"Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'overcache/NeoSolarized'
 Plug 'reedes/vim-litecorrect'
 Plug 'reedes/vim-wordy'
@@ -44,7 +46,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/calendar.vim--Matsumoto'
 Plug 'vim-scripts/utl.vim'
-Plug '/usr/local/opt/fzf'
+Plug '/opt/homebrew/opt/fzf'
 
 call plug#end()
 
@@ -84,6 +86,7 @@ vmap <C-C> "+y
 
 set termguicolors
 colorscheme  NeoSolarized
+let g:python3_host_prog='/opt/homebrew/bin/python3'
 
 "colorscheme  flattened_dark
 
@@ -207,7 +210,7 @@ let g:go_gopls_use_placeholders=1
 let g:go_metalinter_command='gopls'
 let g:go_gopls_use_staticcheck=1
 let g:go_rename_command='gopls'
-let g:go_code_completion_enabled=0
+let g:go_code_completion_enabled = 0
 
 " Add in golint
 let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
@@ -226,7 +229,7 @@ let g:vim_json_syntax_conceal = 1
 let g:org_export_emacs = "/usr/local/bin/emacs"
 let g:org_export_init_script = "~/.emacs"
 
-" vim-terraform (pulled in by vim-polyglot)
+" vim-terraform
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
 let g:hcl_align=1
@@ -284,6 +287,39 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>cl <Plug>(coc-codelens-action)
 
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying code actions at the cursor position
+nmap <leader>ac  <Plug>(coc-codeaction-cursor)
+" Remap keys for apply code actions affect whole buffer
+nmap <leader>as  <Plug>(coc-codeaction-source)
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -294,4 +330,8 @@ augroup end
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+"inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-y>"
+lua require('dap-go').setup()
+
+nnoremap <leader>mp :<C-u>CocCommand markdown-preview-enhanced.openPreview <cr>
