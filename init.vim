@@ -16,21 +16,21 @@ Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular'
 Plug 'google/vim-jsonnet'
 Plug 'hashivim/vim-terraform'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'jasdel/vim-smithy'
-Plug 'jceb/vim-orgmode'
+Plug 'jceb/vim-orgmode', {'branch': 'master'}
 Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'leoluz/nvim-dap-go'
 Plug 'majutsushi/tagbar'
+Plug 'maxmx03/solarized.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'msanders/snipmate.vim'
 Plug 'mtth/scratch.vim'
 Plug 'neomake/neomake'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-"Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'overcache/NeoSolarized'
+Plug 'neoclide/coc.nvim', {'commit': 'release'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'reedes/vim-litecorrect'
 Plug 'reedes/vim-wordy'
 Plug 'rust-lang/rust.vim'
@@ -69,7 +69,7 @@ filetype indent on
 filetype plugin on
 set shiftwidth=2
 set tabstop=2		" Number of spaces to autoindent
-"set expandtab		" Converts tab to spaces
+set expandtab		" Converts tab to spaces
 set softtabstop=2
 set autoindent
 set backspace=indent,eol,start " Smart backspacing
@@ -85,7 +85,8 @@ set shortmess+=c
 vmap <C-C> "+y
 
 set termguicolors
-colorscheme  NeoSolarized
+"colorscheme  NeoSolarized
+colorscheme  solarized
 let g:python3_host_prog='/opt/homebrew/bin/python3'
 
 "colorscheme  flattened_dark
@@ -210,7 +211,7 @@ let g:go_gopls_use_placeholders=1
 let g:go_metalinter_command='gopls'
 let g:go_gopls_use_staticcheck=1
 let g:go_rename_command='gopls'
-let g:go_code_completion_enabled = 0
+let g:go_code_completion_enabled=0
 
 " Add in golint
 let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
@@ -335,3 +336,27 @@ command! -nargs=0 Format :call CocAction('format')
 lua require('dap-go').setup()
 
 nnoremap <leader>mp :<C-u>CocCommand markdown-preview-enhanced.openPreview <cr>
+
+lua << EOF
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.wit = {
+  install_info = {
+    url = "https://github.com/liamwh/tree-sitter-wit",
+    files = { "src/parser.c" },
+    maintainers = { "@liamwh" },
+    branch = "main",
+  }
+}
+
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {"wit", "go", "rust", "json", "yaml", "toml", "hcl", "markdown", "elixir"},
+  auto_install = true,
+  highlight = {
+    enable = true,
+    -- additional_vim_regex_highlighting = true,
+  },
+  indent = {
+    enable = true,
+  }
+}
+EOF
