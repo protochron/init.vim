@@ -28,7 +28,7 @@ Plug 'maxmx03/solarized.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'msanders/snipmate.vim'
 Plug 'mtth/scratch.vim'
-Plug 'neomake/neomake'
+"Plug 'neomake/neomake'
 Plug 'neoclide/coc.nvim', {'commit': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'reedes/vim-litecorrect'
@@ -214,14 +214,14 @@ let g:go_rename_command='gopls'
 let g:go_code_completion_enabled=0
 
 " Add in golint
-let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
+"let g:neomake_go_metalinter_args = ['--disable-all', '--enable=errcheck', '--enable=megacheck', '--enable=golint']
 
 " NERDTree
 noremap <Leader>n :NERDTreeToggle<cr>
 let NERDTreeShowHidden=1
 
 " Neomake
-autocmd! BufWritePost * Neomake
+"autocmd! BufWritePost * Neomake
 
 " vim-json
 let g:vim_json_syntax_conceal = 1
