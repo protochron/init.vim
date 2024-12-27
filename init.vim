@@ -4,7 +4,7 @@ end
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'cespare/vim-toml'
 Plug 'chrisbra/NrrwRgn'
 Plug 'dbmrq/vim-ditto'
@@ -23,6 +23,7 @@ Plug 'jparise/vim-graphql'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'leoluz/nvim-dap-go'
+Plug 'ledger/vim-ledger'
 Plug 'majutsushi/tagbar'
 Plug 'maxmx03/solarized.nvim'
 Plug 'mfussenegger/nvim-dap'
