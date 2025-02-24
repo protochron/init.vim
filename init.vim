@@ -1,5 +1,5 @@
 if has('macunix')
-  let g:python3_host_prog = '/usr/local/opt/python@3/libexec/bin/python'
+  let g:python3_host_prog = '/opt/homebrew/bin/python3'
 end
 
 call plug#begin('~/.config/nvim/plugged')
@@ -47,6 +47,15 @@ Plug 'tpope/vim-speeddating'
 Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/calendar.vim--Matsumoto'
 Plug 'vim-scripts/utl.vim'
+"Plug 'zbirenbaum/copilot.lua'
+Plug 'stevearc/dressing.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
+Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
+Plug 'nvim-tree/nvim-web-devicons'
+
+"
 Plug '/opt/homebrew/opt/fzf'
 
 call plug#end()
@@ -339,6 +348,9 @@ lua require('dap-go').setup()
 nnoremap <leader>mp :<C-u>CocCommand markdown-preview-enhanced.openPreview <cr>
 
 lua << EOF
+-- Recommended w/ avante
+vim.opt.laststatus = 3
+
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.wit = {
   install_info = {
@@ -360,4 +372,29 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   }
 }
+
+require('avante_lib').load()
+require('avante').setup({
+  provider = "copilot",
+  auto_suggestions = false,
+})
+
+--local status, copilot = pcall(require, "copilot")
+--if (not status) then return end
+--require('copilot').setup({
+--  suggestion = {
+--    --accept = false,
+--    auto_refresh = true,
+--  }
+--})
+
+--vim.keymap.set("i", '<Tab>', function()
+--  if require("copilot.suggestion").is_visible() then
+--    require("copilot.suggestion").accept()
+--  else
+--    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+--  end
+--end, {
+--  silent = true,
+--})
 EOF
