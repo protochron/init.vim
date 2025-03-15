@@ -55,7 +55,6 @@ Plug 'MeanderingProgrammer/render-markdown.nvim'
 Plug 'yetone/avante.nvim', { 'branch': 'main', 'do': 'make' }
 Plug 'nvim-tree/nvim-web-devicons'
 
-"
 Plug '/opt/homebrew/opt/fzf'
 
 call plug#end()
@@ -377,6 +376,11 @@ require('avante_lib').load()
 require('avante').setup({
   provider = "copilot",
   auto_suggestions = false,
+  copilot = {
+    model = "claude-3.5-sonnet",
+    temperature = 0,
+    max_tokens = 8192,
+  }
 })
 
 --local status, copilot = pcall(require, "copilot")
